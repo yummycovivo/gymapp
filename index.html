@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gym sonnet app (son)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+    <!-- Sfondo animato / Gradiente -->
+    <div class="bg-gradient"></div>
+
+    <div class="app-container">
+        
+        <header class="top-nav">
+            <h1 class="logo">GYM<span>SONNET</span> (son)</h1>
+            <nav>
+                <button class="nav-btn active" data-target="workout-view">Allenamento</button>
+                <button class="nav-btn" data-target="templates-view">Schede</button>
+                <button class="nav-btn" data-target="history-view">Storico</button>
+                <button class="nav-btn" data-target="stats-view">Statistiche</button>
+            </nav>
+        </header>
+
+        <!-- View: Allenamento Attivo -->
+        <main id="workout-view" class="view active">
+            <div class="glass-card new-workout-card" id="new-workout-panel">
+                <h2>Inizia Allenamento</h2>
+                <input type="text" id="workout-name" placeholder="Es: Petto e Tricipiti" class="input-modern">
+                <div class="form-row">
+                    <button id="btn-start-workout" class="btn-primary flex-1">Allenamento Vuoto</button>
+                </div>
+                
+                <h3 class="mt-2" style="margin-top:25px; border-top:1px solid var(--card-border); padding-top:15px;">Oppure inizia da una scheda:</h3>
+                <div id="start-templates-list" style="display:flex; flex-direction:column; gap:10px;">
+                    <!-- Dinamico -->
+                </div>
+            </div>
+
+            <div id="active-workout-panel" class="hidden">
+                <div class="active-header glass-card">
+                    <div>
+                        <h2 id="display-workout-name" style="margin-bottom:5px;">Allenamento Attivo</h2>
+                        <div style="color:var(--text-muted); font-size:0.9rem;">Volume Totale: <strong id="workout-total-volume" style="color:var(--primary);">0 kg</strong></div>
+                    </div>
+                    <div style="text-align:right;">
+                        <span id="workout-duration" style="display:block; margin-bottom:5px;">00:00:00</span>
+                        <button id="btn-end-workout" class="btn-danger btn-small">Termina</button>
+                    </div>
+                </div>
+
+                <!-- Aggiunta Esercizi -->
+                <div class="glass-card add-exercise-card">
+                    <h3>Aggiungi Esercizio</h3>
+                    <div class="form-row">
+                        <input type="text" id="exercise-search" list="wger-exercises" placeholder="Cerca esercizio..." class="input-modern">
+                        <datalist id="wger-exercises"></datalist>
+                        <button id="btn-add-exercise" class="btn-secondary">Aggiungi</button>
+                    </div>
+                </div>
+
+                <!-- Lista Esercizi in corso -->
+                <div id="exercises-container" class="exercises-list">
+                    <!-- Dinamico -->
+                </div>
+            </div>
+        </main>
+
+        <!-- View: Schede (Gym Days) -->
+        <main id="templates-view" class="view hidden">
+            <div class="glass-card">
+                <h2>Crea Nuova Scheda</h2>
+                <div class="form-row">
+                    <input type="text" id="template-name" placeholder="Nome scheda (es. Leg Day)" class="input-modern flex-2">
+                    <button id="btn-create-template" class="btn-primary flex-1">Crea</button>
+                </div>
+            </div>
+            
+            <div id="templates-list-container">
+                <!-- Dinamico -->
+            </div>
+        </main>
+
+        <!-- View: Storico -->
+        <main id="history-view" class="view hidden">
+            <div class="glass-card">
+                <h2>Storico Allenamenti</h2>
+                <div id="history-list">
+                    <!-- Dinamico -->
+                </div>
+            </div>
+        </main>
+
+        <!-- View: Statistiche -->
+        <main id="stats-view" class="view hidden">
+            <div id="stats-container">
+                <!-- Dinamico -->
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Timer Fluttuante Globale -->
+    <div id="floating-timer" class="glass-card floating-timer hidden">
+        <div class="timer-header">
+            <span>Recupero</span>
+            <button id="btn-close-timer" class="close-btn">&times;</button>
+        </div>
+        <div class="timer-display" id="timer-display">00:00</div>
+        <div class="timer-controls">
+            <button id="btn-timer-add30" class="btn-small">+30s</button>
+            <button id="btn-timer-reset" class="btn-small">Reset</button>
+        </div>
+        <div class="timer-presets">
+            <button class="btn-preset" data-time="60">1m</button>
+            <button class="btn-preset" data-time="90">1.5m</button>
+            <button class="btn-preset" data-time="120">2m</button>
+            <button class="btn-preset" data-time="180">3m</button>
+        </div>
+    </div>
+
+    <template id="tpl-exercise">
+        <div class="exercise-card glass-card">
+            <div class="ex-header">
+                <div>
+                    <h3 class="ex-name" style="margin-bottom:2px;">Nome Esercizio</h3>
+                    <div class="ex-target" style="color:var(--text-muted); font-size:0.85rem;"></div>
+                </div>
+                <button class="btn-remove-ex">&times;</button>
+            </div>
+            <div class="ex-sets">
+                <!-- Set dinamici -->
+            </div>
+            <div class="ex-add-set-large mt-2">
+                <input type="number" class="input-set-weight input-set-large" placeholder="Kg" min="0" step="0.5">
+                <input type="number" class="input-set-reps input-set-large" placeholder="Reps" min="1">
+                <button class="btn-add-set btn-primary-outline btn-large">Aggiungi Set</button>
+            </div>
+        </div>
+    </template>
+
+    <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>
